@@ -1,0 +1,32 @@
+SliGallery - jQuery plugin to create JavaScript gallery
+
+Using:
+
+	<script type="text/javascript" src="./js/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="./js/jquery.easing.1.3.js"></script>
+	<script type="text/javascript" src="./js/sli_gallery_0.4b3.js"></script>
+	<script type="text/javascript">
+		// <![CDATA[
+			
+			$(document).ready(function() {
+				
+				$("#promoContainer").SliGallery({
+					showType:     "fade",
+					showDuration: 800,
+					hideType:     "fade",
+					hideDuration: 1000,
+					
+					pagerItemIdPrefix:    "pbn",
+					contentsItem:         "a",
+					contentsItemIdPrefix: "promo",
+					itemTimeout:          7000,
+					
+					easing:               "easeOutExpo",
+					carousel:             true
+					
+				});
+				
+			});
+			
+		//]]>
+		</script>
