@@ -1,19 +1,21 @@
 
-	/** ----------------------------------------- **
-	 *                  SliGallery                 *
-	 * ------------------------------------------- *
-	 * File : sli_gallery_0.4b.js                  *
-	 * Plugin jQuery oprogramowujący galerię       *
-	 * elementów wraz z przyciskami                *
-	 * @author Reo  reo.fox@gmail.com              *
-	 * @version 0.4 beta <25-02-2012>              *
-	 * @license Open Source                        *
-	 ** ----------------------------------------- **
-	 ** Changelog:                                **
-	 **  - Obsługuje animacje easing              **
-	 **  - Obsługuje zachowanie karuzeli          **
-	 **    (opcja carousel: true)                 **
-	 ** ----------------------------------------- **
+	/** -------------------------------------------- **
+	 *                   SliGallery                   *
+	 * ---------------------------------------------- *
+	 * File : sli_gallery_0.4b3.js                    *
+	 * Plugin jQuery oprogramowujący galerię          *
+	 * elementów wraz z przyciskami                   *
+	 * @author Reo  reo.fox@gmail.com                 *
+	 * @version 0.4 beta 3 <11-03-2012>               *
+	 * @license MIT                                   *
+	 * http://opensource.org/licenses/mit-license.php *
+	 ** -------------------------------------------- **
+	 ** Changelog:                                   **
+	 **  - Obsługuje animacje easing                 **
+	 **  - Obsługuje zachowanie karuzeli             **
+	 **    (opcja carousel: true)                    **
+	 **  - Poprawiono moment ładowania elementów     **
+	 ** -------------------------------------------- **
 	*/
 	
 	
@@ -21,20 +23,20 @@
 	
 		SliGallery: function (sgConfig)
 		{
-			// - Konfiguracja domyślna -
+			// - Default configuration -
 			
 			var config = {
-				pagerItemIdPrefix:     "pbn",          // - Prefix id linków w pagerze -
-				contentsItem:          "a",            // - Element w galerii -
-				contentsItemIdPrefix:  "baner",        // - Prefix id elementów galerii -
-				contents:              "div.contents", // - Element zawierający zawartość galerii -
+				pagerItemIdPrefix:     "pbn",          // - Prefix id of links in pager -
+				contentsItem:          "a",            // - Element in gallery -
+				contentsItemIdPrefix:  "baner",        // - Prefix id of elements in gallery -
+				contents:              "div.contents", // - Element containing gallery elements -
 				itemTimeout:           5000,
-				
-				pager:                 "div.pager",    // - Element zawierający pager -
-				pagerItemSelClass:     "on",           // - Klasa aktywnego linku w pagerze -
-				
-				goLeftBtn:             ".goleft",      // - Przycisk wstecz -
-				goRightBtn:            ".goright",     // - Przycisk dalej -
+					
+				pager:                 "div.pager",    // - Element containing pager -
+				pagerItemSelClass:     "on",           // - Class of active link in pager -
+					
+				goLeftBtn:             ".goleft",      // - Button back -
+				goRightBtn:            ".goright",     // - Button forward -
 				
 				counter:               ".counter",     
 			
@@ -47,7 +49,9 @@
 				easing:                "",            // - easing method
 				carousel:              false,
 				
-				// - Typy przejść i ich czasy trwania -
+				usePanel:              false,
+				
+				// - Types of transitions and their duration -
 				showType:     "fade",
 				showDuration: "slow",
 				hideType:     "fade",
@@ -60,8 +64,11 @@
 			jQuery.extend(config, sgConfig);
 			
 			// pomocnicze
-			args = { left: 0, right: 0, top: 0, bottom: 0, width: 0 };   // - argumenty pomocy
-			rollout = false;
+			var args = { left: 0, right: 0, top: 0, bottom: 0, width: 0 };   // - argumenty pomocy
+			
+			// - flagi -
+			var rollout = false;
+			var firstLoad = true;
 			
 			var items = new Array();
 			var selectedPagerId = config.pagerItemSelClass + "1";
@@ -145,7 +152,7 @@
 						{
 							jQuery(this).animate (
 								{ left: args.width }, 
-								{ duration: config.hideDuration, easing: config.easing }
+								{ duration: ( firstLoad ? 0 : config.hideDuration ), easing: config.easing }
 							);
 						}
 						
@@ -172,7 +179,7 @@
 						if ( config.hideType.toLowerCase() == "fade" ) {
 						
 							// IE8 BUG FIX - for non-fading span in sliG with panel - Need better FIX!
-							if ( $.browser.msie && parseInt($.browser.version, 10) == 8)
+							if ( config.usePanel && $.browser.msie && parseInt($.browser.version, 10) == 8)
 								jQuery(this).children("span").hide(0);
 								
 							jQuery(this).fadeOut(config.hideDuration);
@@ -197,23 +204,16 @@
 				
 				else if ( config.easing != "" )
 				{
-					/*switch ( config.easing )
-					{
-						case "easeOutBack" : 
-						case "easeOutQuad" :
-						case "easeOutBounce" :
-					*/	
-							jQuery("#" + elementId + " " + config.contents + " > " + config.contentsItem + "#" + item).animate (
-								{ left: args.left }, 
-								{ duration: config.showDuration, easing: config.easing }
-							);
-					//}
+					jQuery("#" + elementId + " " + config.contents + " > " + config.contentsItem + "#" + item).animate (
+						{ left: args.left }, 
+						{ duration: config.showDuration, easing: config.easing }
+					);
 				}
 				
 				else if ( config.showType.toLowerCase() == "fade" ){
 					
 					// IE8 BUG FIX - for non-fading span in sliG with panel - Need better FIX!
-					if ( $.browser.msie && parseInt($.browser.version, 10) == 8)
+					if ( config.usePanel && $.browser.msie && parseInt($.browser.version, 10) == 8)
 						jQuery("#" + elementId + " " + config.contents + " > " + config.contentsItem + "#" + item).children("span").show(0);
 					
 					jQuery("#" + elementId + " " + config.contents + " > " + config.contentsItem + "#" + item).fadeIn(config.showDuration);
@@ -279,6 +279,11 @@
 				refreshPager(id);
 			};
 			
+			function showContents()
+			{
+				jQuery("#" + elementId + " " + config.contents).animate({ opacity: 1 }, config.showDuration);
+				firstLoad = false;
+			};
 			
 			$("#" + elementId + " " + config.goRightBtn).click (
 				function () {
@@ -355,6 +360,8 @@
 			loadItemsArray();
 			toggleElement();
 			startRotation();
+			
+			setTimeout(showContents, 20);
 			
 		}
 	
