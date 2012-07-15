@@ -53,19 +53,21 @@ Sample usage:
 	
 	<div id="promoContainer">
 	
-		<div class="contents">
+		<div class="contents">  <!-- Here goes all elements using in gallery, such as images, links with images - they must be all the same type (a, img, div etc.) -->
 			<a href="#"><img alt="Promocja" src="./images/promo1.jpg" /></a>
 			<a href="#"><img alt="Promocja" src="./images/promo2.jpg" /></a>
 			<a href="#"><img alt="Promocja" src="./images/promo3.jpg" /></a>
 			<a href="#"><img alt="Promocja" src="./images/promo4.jpg" /></a>
 		</div>
 					
-		<div class="pager">
+		<div class="pager">  <!-- Here goes pager for these elements -->
 			<a href="#">1</a>  
 			<a href="#">2</a>  
 			<a href="#">3</a>  
 			<a href="#">4</a>  
 		</div>
+		
+		<!-- Additional buttons for forward/backward actions -->
 		
 		<a href="#" class="goleft"><img src="./images/goleft.png" alt="&lt;" /></a>
 		<a href="#" class="goright"><img src="./images/goright.png" alt="&gt;" /></a>
