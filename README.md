@@ -8,6 +8,7 @@ Sample usage:
 
 ###Javascript:
 
+```html
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script type="text/javascript" src="./js/jquery.easing.1.3.js"></script>
 	<script type="text/javascript" src="./js/sli_gallery_0.4b3.js"></script>
@@ -50,10 +51,11 @@ Sample usage:
 	</script>
 	
 ###Sample HTML structure:
-	
+
+```html
 	<div id="promoContainer">
 	
-		<div class="contents">  <!-- Here goes all elements using in gallery, such as images, links with images - they must be all the same type (a, img, div etc.) -->
+		<div class="contents">  <!-- Here goes all elements used in gallery, such as images, links with images - they must be all the same type (a, img, div etc.) -->
 			<a href="#"><img alt="Promocja" src="./images/promo1.jpg" /></a>
 			<a href="#"><img alt="Promocja" src="./images/promo2.jpg" /></a>
 			<a href="#"><img alt="Promocja" src="./images/promo3.jpg" /></a>
