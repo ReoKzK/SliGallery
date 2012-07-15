@@ -49,6 +49,7 @@ Sample usage:
 			
 	//]]>
 	</script>
+```
 	
 ###Sample HTML structure:
 
@@ -75,6 +76,4 @@ Sample usage:
 		<a href="#" class="goright"><img src="./images/goright.png" alt="&gt;" /></a>
 		
 	</div>
-				
-	
-
+```
